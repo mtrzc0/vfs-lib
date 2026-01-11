@@ -1,4 +1,4 @@
-# Technical Project Summary: VFS-lib
+# VFS-lib
 
 ## 1. Project Overview
 This project implements a C++17 Virtual File System (VFS) wrapper for POSIX systems. It provides a high-level abstraction for low-level system calls, ensuring safer memory management and a more intuitive API for file and directory manipulation.
