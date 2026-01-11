@@ -4,7 +4,7 @@ FROM ubuntu:latest
 # Prevent interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update and install C++ tools, make, cmake, and gtest
+# Update and install C++ tools, Doxygen, and GTest
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
@@ -12,10 +12,14 @@ RUN apt-get update && apt-get install -y \
     cmake \
     make \
     libgtest-dev \
+    doxygen \
+    graphviz \
     git \
+    vim \
+    nano \
     && rm -rf /var/lib/apt/lists/*
 
-# Compile GTest library (on Ubuntu, sources are located in /usr/src/gtest)
+# Compile GTest library
 RUN cd /usr/src/gtest && \
     cmake . && \
     make && \
