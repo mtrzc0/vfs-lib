@@ -41,7 +41,7 @@ A lightweight, POSIX-compliant C++17 wrapper for file and directory management.
 ### Compilation
 Use the provided `Makefile`:
 ```bash
-make        # Compiles the library and demo
+make         # Compiles the library and demo
 ./build/main # Runs the demonstration
 ```
 
