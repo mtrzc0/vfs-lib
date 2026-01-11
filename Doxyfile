@@ -1,0 +1,36 @@
+# Project related configuration
+PROJECT_NAME           = "VFS-lib"
+PROJECT_NUMBER         = 1.0.0
+PROJECT_BRIEF          = "A POSIX-based Virtual File System wrapper library"
+OUTPUT_DIRECTORY       = doc
+CREATE_SUBDIRECTORIES  = NO
+ALLOW_UNICODE_NAMES    = YES
+
+# Extraction settings
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+HIDE_UNDOC_MEMBERS     = NO
+
+# Input settings
+# Adjust these paths if your files are in different folders
+INPUT                  = include/ src/ README.md
+FILE_PATTERNS          = *.hpp *.cpp
+RECURSIVE              = YES
+
+# HTML Output settings
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_FILE_EXTENSION    = .html
+
+# Diagram settings (Requires Graphviz/dot to be installed for best results)
+HAVE_DOT               = YES
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+GROUP_GRAPHS           = YES
+DIRECTORY_GRAPH        = YES
+INHERITANCE_GRAPH      = YES
+INCLUDE_GRAPH          = YES
+
+# LaTeX Output (Set to NO unless you want a PDF manual)
+GENERATE_LATEX         = NO

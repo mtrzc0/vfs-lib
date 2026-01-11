@@ -1,0 +1,5 @@
+<map id="mt::Directory" name="mt::Directory">
+<area shape="rect" id="Node000001" title="A specialized File that acts as a container for other File objects." alt="" coords="5,79,113,104"/>
+<area shape="rect" id="Node000002" href="$classmt_1_1File.html" title="Encapsulates a POSIX file descriptor and its associated metadata." alt="" coords="24,5,95,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,44,62,79,57,79,57,44"/>
+</map>

@@ -4,7 +4,6 @@
 #include <cstring>
 
 namespace mt {
-
     Directory::Directory(const char* path) : File(path, O_RDONLY, 0) {
         // If the directory doesn't exist (File ctor set m_fd to -1)
         if (get_errsv() == ENOENT) {
