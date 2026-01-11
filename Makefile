@@ -1,6 +1,6 @@
 # Simple wrapper Makefile for CMake
 BUILD_DIR = build
-BINARY = VFS_Demo
+BINARY = main
 CORES = 12
 
 all: $(BUILD_DIR)
