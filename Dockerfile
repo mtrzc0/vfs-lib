@@ -1,10 +1,10 @@
-# Wykorzystujemy bazę Ubuntu
+# Use the latest Ubuntu image
 FROM ubuntu:latest
 
-# Unikanie pytań o strefę czasową podczas instalacji
+# Prevent interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Aktualizacja i instalacja narzędzi C++, make, cmake i gtest
+# Update and install C++ tools, make, cmake, and gtest
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
@@ -15,13 +15,14 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Kompilacja biblioteki GTest (w Ubuntu źródła są w /usr/src/gtest)
+# Compile GTest library (on Ubuntu, sources are located in /usr/src/gtest)
 RUN cd /usr/src/gtest && \
     cmake . && \
     make && \
     cp lib/*.a /usr/lib
 
-# Ustawienie katalogu roboczego
+# Set the working directory inside the container
 WORKDIR /app
 
+# Default command to run
 CMD ["/bin/bash"]
