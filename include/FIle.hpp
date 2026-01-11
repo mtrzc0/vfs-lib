@@ -3,11 +3,13 @@
 // prevent overflow when reading larger files
 #define _FILE_OFFSET_BITS 64
 
-// cpp core
+// core
 #include <cstdint>
 #include <cerrno>
+#include <cstring>
+#include <ctime>
 
-// kernel specific
+// kernel 
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -15,63 +17,56 @@
 
 namespace mt {
     class File {
-    private:
-        int32_t m_fd;
-        const char* m_path;     // absolute path
-        int32_t m_oflag;
-        int32_t m_mode;
-        uint32_t m_size;
+    protected:
+        int32_t m_fd;                   // file descriptor
         int32_t m_errsv;
-        stat *m_statbuf;        // metadata about file from kernel vfs
-    public:
-        // set full custom parameters
-        File(int32_t fd, const char *path, int32_t oflag, int32_t mode): m_fd(fd), m_path(path), m_oflag(oflag), m_mode(mode)  {
-            fd = open(path, oflag, mode);
-            if (fd == -1) {
-                errsv = errno;  // save error value
-            }
-            // set size
-        }
+        void update_stat();
+        
+    private:
+        const char* m_path;             // absolute path
+        const char* m_name;
+        int32_t m_oflag;
+        struct stat m_statbuf;          // metadata about file from kernel vfs
+        mode_t m_mode;
+        off_t m_size;
+        time_t m_atime;
+        time_t m_mtime;
 
-        // read only
-        File(int32_t fd, const char *path): m_fd(fd), m_path(path), m_oflag(O_RDONLY), m_mode(0) {
-            fd = open(path, O_RDONLY, 0);
-            if (fd == -1) {
-                errsv = errno;
-            }
-            // set size
-        }
+    public:
+        // full custom parameters constructor
+        File(const char *path, int32_t oflag, int32_t mode);
+
+        // read only constructor
+        File(const char *path);
+
+        // release fd destructor
+        virtual ~File();
     
         // setters
-        int32_t set_oflag(int32_t fd, int32_t oflag, int32_t new_oflag) {
-            fcntl(fd, FSETFL, oflag | new_oflag);
-            if (fd == -1)
-        }
+        bool set_oflag(int32_t new_oflag);
 
         // getters
-        const stat *get_stat() const {
-            return m_statbuf;    
-        }
+        const struct stat get_stat() const;
 
-        const char *get_name() const {
-            return m_name;
-        }
+        const char *get_name() const;
 
-        const char *get_path() const {
-            return m_path;
-        }
+        const char *get_path() const;
 
-        uint32_t get_size() const {
-            return m_size;
-        }
+        off_t get_size() const;
 
-        int32_t get_errsv() const {
-            return m_errsv;
-        }
+        time_t get_atime() const;
+
+        char *get_atime_sec() const;
         
-        ~File() {
-            close(m_fd);
-        }
+        time_t get_mtime() const;
+        
+        char* get_mtime_sec() const;
+
+        int32_t get_errsv() const;
+        
+        // operator overloading
+        bool operator==(const File& other) const;
+
+        File& operator<<(const char* data);
     };   
 }
-
