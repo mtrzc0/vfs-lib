@@ -1,7 +1,4 @@
 #include "Directory.hpp"
-#include <sys/stat.h> // Required for mkdir()
-#include <algorithm>
-#include <cstring>
 
 namespace mt {
     Directory::Directory(const char* path) : File(path, O_RDONLY, 0) {

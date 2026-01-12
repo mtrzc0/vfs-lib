@@ -6,6 +6,11 @@
 #include <vector>
 #include <memory>
 
+// kernel
+#include <sys/stat.h> // Required for mkdir()
+#include <algorithm>
+#include <cstring>
+
 /**
  * @file Directory.hpp
  * @brief Header file for the Directory class, which acts as a container in the VFS.
