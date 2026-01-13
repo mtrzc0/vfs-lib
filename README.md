@@ -31,18 +31,24 @@ A lightweight, POSIX-compliant C++17 wrapper for file and directory management.
 ```
 
 
-## 🛠 Installation & Build
+## Installation & Build
 
 ### Prerequisites
 - GCC/Clang with C++17 support.
 - Doxygen (optional, for documentation).
 - Graphviz (optional, for architecture diagrams).
 
+### Container setup
+```bash
+chmod +x run_ubuntu.sh
+./run_ubuntu.sh
+```
+
 ### Compilation
 Use the provided `Makefile`:
 ```bash
-make         # Compiles the library and demo
-./build/main # Runs the demonstration
+make             # Compiles the library
+./build/VFS_Demo # Runs the demonstration
 ```
 
 ### Doxygen

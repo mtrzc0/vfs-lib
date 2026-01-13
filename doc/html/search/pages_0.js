@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['file_20system_0',['VFS-lib (Virtual File System)',['../md_README.html',1,'']]]
+  ['file_20system_20library_0',['VFS-lib: Virtual File System Library',['../md_README.html',1,'']]]
 ];

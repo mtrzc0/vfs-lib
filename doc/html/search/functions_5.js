@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['set_5foflag_0',['set_oflag',['../classmt_1_1File.html#aa98db30169832bf6abc4315323dc846b',1,'mt::File']]]
+  ['remove_5fdir_0',['remove_dir',['../classmt_1_1Directory.html#a84cc0bc5ed78c7d7066984ba1109ba53',1,'mt::Directory']]]
 ];

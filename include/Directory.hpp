@@ -5,11 +5,11 @@
 // core
 #include <vector>
 #include <memory>
+#include <cerrno>
+#include <algorithm>
 
 // kernel
 #include <sys/stat.h> // Required for mkdir()
-#include <algorithm>
-#include <cstring>
 
 /**
  * @file Directory.hpp
@@ -40,12 +40,26 @@ namespace mt {
          */
         size_t entries_count() const;
 
+        void remove_dir(const char* path);
+
         /**
          * @brief Adds a shared pointer of a File or Directory to this container.
          * @param entry The File object to be added.
          * @return Directory& Reference to this for operation chaining.
          */
         Directory& operator+=(std::shared_ptr<File> entry);
+        
+        /**
+         * @brief Removes an entry from the directory and deletes it from the filesystem.
+         * * This operator performs two actions:
+         * 1. Physical: Calls `unlink()` on the file's path to remove it from the disk.
+         * 2. Logical: Erases the shared pointer from the internal `m_entries` vector.
+         * * @note If the entry is a directory, unlink may fail (POSIX requires rmdir).
+         * @warning This is a destructive operation and cannot be undone.
+         * * @param entry The shared pointer to the File or Directory to be removed.
+         * @return Directory& Reference to this directory for method chaining.
+         */
+        Directory& operator-=(std::shared_ptr<File> entry);
 
         /**
          * @brief Searches for an entry by its filename.

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['vfs_20lib_20virtual_20file_20system_0',['VFS-lib (Virtual File System)',['../md_README.html',1,'']]],
-  ['virtual_20file_20system_1',['VFS-lib (Virtual File System)',['../md_README.html',1,'']]]
+  ['readme_2emd_0',['README.md',['../README_8md.html',1,'']]],
+  ['remove_5fdir_1',['remove_dir',['../classmt_1_1Directory.html#a84cc0bc5ed78c7d7066984ba1109ba53',1,'mt::Directory']]]
 ];

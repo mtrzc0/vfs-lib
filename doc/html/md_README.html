@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>VFS-lib: VFS-lib (Virtual File System)</title>
+<title>VFS-lib: VFS-lib: Virtual File System Library</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,18 +70,74 @@ $(function() {
 
 </div><!-- top -->
 <div><div class="header">
-  <div class="headertitle"><div class="title">VFS-lib (Virtual File System)</div></div>
+  <div class="headertitle"><div class="title">VFS-lib: Virtual File System Library</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> A simple C++17 library for hierarchical file management in memory, designed for POSIX compliant operating systems.</p>
-<h1><a class="anchor" id="autotoc_md1"></a>
-🏗 Project Structure</h1>
-<p>```text├── include/ # Header files (Doxygen documented) │ ├── File.hpp <br  />
- │ └── <a class="el" href="Directory_8hpp.html" title="Header file for the Directory class, which acts as a container in the VFS.">Directory.hpp</a> <br  />
- ├── src/ # Implementation files │ ├── <a class="el" href="File_8cpp.html">File.cpp</a> <br  />
- │ └── <a class="el" href="Directory_8cpp.html">Directory.cpp</a> <br  />
- ├── examples/ │ └── main.cpp # Usage demonstration ├── CMakeLists.txt # Build configuration ├── Makefile # Build wrapper └── <a class="el" href="README_8md.html">README.md</a> </p>
-</div></div><!-- contents -->
+<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> A lightweight, POSIX-compliant C++17 wrapper for file and directory management.</p>
+<h2><a class="anchor" id="autotoc_md1"></a>
+Features</h2>
+<ul>
+<li><b>Object-Oriented POSIX</b>: Wraps low-level system calls (<code>open</code>, <code>fstat</code>, <code>mkdir</code>, <code>fcntl</code>) into clean C++ classes.</li>
+<li><b>Hierarchical Storage</b>: <code>Directory</code> inherits from <code>File</code>, allowing nested directory trees.</li>
+<li><b>Smart Metadata</b>: Automatic extraction of file size, access/modification times, and filenames.</li>
+<li><b>Operator Overloading</b>:<ul>
+<li><code>file1 == file2</code>: Compare physical files via Inode/Device ID.</li>
+<li><code>file &lt;&lt; "data"</code>: Stream-style writing to files.</li>
+<li><code>dir += file</code>: Add entries to a directory.</li>
+<li><code>dir["name"]</code>: Retrieve entries via array-style lookup.</li>
+</ul>
+</li>
+<li><b>Memory Safety</b>: Uses <code>std::shared_ptr</code> to manage file lifecycles and ensure descriptors are closed correctly.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Project Structure</h2>
+<div class="fragment"><div class="line">.</div>
+<div class="line">├── include/</div>
+<div class="line">│   ├── File.hpp</div>
+<div class="line">│   └── Directory.hpp</div>
+<div class="line">├── src/</div>
+<div class="line">│   ├── File.cpp</div>
+<div class="line">│   └── Directory.cpp</div>
+<div class="line">├── examples/</div>
+<div class="line">│   └── main.cpp</div>
+<div class="line">├── Makefile</div>
+<div class="line">├── Doxyfile</div>
+<div class="line">└── README.md</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
+Installation &amp; Build</h1>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Prerequisites</h2>
+<ul>
+<li>GCC/Clang with C++17 support.</li>
+<li>Doxygen (optional, for documentation).</li>
+<li>Graphviz (optional, for architecture diagrams).</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Compilation</h2>
+<p>Use the provided <code>Makefile</code>: </p><div class="fragment"><div class="line">make         # Compiles the library and demo</div>
+<div class="line">./build/main # Runs the demonstration</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+Doxygen</h2>
+<p>To generate the full technical API documentation:</p>
+<p>Ensure Doxyfile is in the root directory.</p>
+<p>Run <code>doxygen Doxyfile</code>.</p>
+<p>Open <code>doc/html/index.html</code> in your browser.</p>
+<h2><a class="anchor" id="autotoc_md7"></a>
+Example Usage</h2>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespacemt.html">mt</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Create a directory and a file</span></div>
+<div class="line"><span class="keyword">auto</span> workDir = std::make_shared&lt;Directory&gt;(<span class="stringliteral">&quot;./work&quot;</span>);</div>
+<div class="line"><span class="keyword">auto</span> logFile = std::make_shared&lt;File&gt;(<span class="stringliteral">&quot;./work/log.txt&quot;</span>, O_RDWR | O_CREAT, 0644);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Write data and organize</span></div>
+<div class="line">*logFile &lt;&lt; <span class="stringliteral">&quot;System initialized\n&quot;</span>;</div>
+<div class="line">*workDir += logFile;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Retrieve by name</span></div>
+<div class="line"><span class="keyword">auto</span> found = (*workDir)[<span class="stringliteral">&quot;log.txt&quot;</span>];</div>
+<div class="ttc" id="anamespacemt_html"><div class="ttname"><a href="namespacemt.html">mt</a></div><div class="ttdef"><b>Definition</b> Directory.hpp:19</div></div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

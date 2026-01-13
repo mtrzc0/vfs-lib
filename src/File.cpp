@@ -3,23 +3,23 @@
 static constexpr int32_t DEFAULT_OFLAG = O_RDONLY;
 
 namespace mt {
-    // set full custom parameters
+    // Set full custom parameters
     File::File(const char *path, int32_t oflag, int32_t mode)
     : m_path(path), m_oflag(oflag), m_mode(mode), m_name(""), m_fd(-1), m_size(0), m_errsv(0) {
         m_fd = open(path, oflag, mode);
         if (m_fd == -1) {
-            m_errsv = errno;  // save error value
+            m_errsv = errno;  // Save error value
         } else {
             update_stat();
         }
     }
 
-    // set read only
+    // Set read only
     File::File(const char *path)
         : m_path(path), m_oflag(DEFAULT_OFLAG), m_name(""), m_fd(-1), m_size(0), m_errsv(0) {
         m_fd = open(path, DEFAULT_OFLAG, S_IFREG);
         if (m_fd == -1) {
-            m_errsv = errno;  // save error value
+            m_errsv = errno;  // Save error value
         } else {
             update_stat();
         }        
@@ -30,16 +30,16 @@ namespace mt {
     }
     
     void File::update_stat() {
-        // strrchr finds the pointer to the last '/'
+        // Strrchr finds the pointer to the last '/'
         const char* last_slash = strrchr(m_path, '/');
         
         if (last_slash == nullptr) {
-            m_name = m_path; // no slash found, path is the name
+            m_name = m_path; // No slash found, path is the name
         } else {
-            m_name = last_slash + 1; // name starts after the last slash
+            m_name = last_slash + 1; // Name starts after the last slash
         }
 
-        // update all parameters
+        // Update all parameters
         if (fstat(m_fd, &m_statbuf) == -1) {
             m_errsv = errno;
         } else {
@@ -49,7 +49,7 @@ namespace mt {
         }
     }
     
-    // setters
+    // Setters
     bool File::set_oflag(int32_t new_oflag) {
         if (m_fd == -1) {
             return false;
@@ -64,7 +64,7 @@ namespace mt {
         return true;
     }
 
-    // getters
+    // Getters
     const struct stat File::get_stat() const {
         return m_statbuf;    
     }
@@ -101,16 +101,14 @@ namespace mt {
         return m_errsv;
     }
     
-    // operator overloading
-    
-    // compare files by their unique Inode number and Device ID
+    // Compare files by their unique Inode number and Device ID
     bool File::operator==(const File& other) const {
         if (m_fd == -1 || other.m_fd == -1) return false;
         return (m_statbuf.st_ino == other.m_statbuf.st_ino) && 
                (m_statbuf.st_dev == other.m_statbuf.st_dev);
     }
 
-    // write data to file using the stream operator
+    // Write data to file using the stream operator
     File& File::operator<<(const char* data) {
         if (m_fd != -1 && data != nullptr) {
             ssize_t bytes_written = write(m_fd, data, strlen(data));

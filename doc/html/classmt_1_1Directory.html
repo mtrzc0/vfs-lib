@@ -115,9 +115,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac8f8e69ae798a83bc63662c2688ac343" id="r_ac8f8e69ae798a83bc63662c2688ac343"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmt_1_1Directory.html#ac8f8e69ae798a83bc63662c2688ac343">entries_count</a> () const</td></tr>
 <tr class="memdesc:ac8f8e69ae798a83bc63662c2688ac343"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of files and sub-directories currently stored.  <br /></td></tr>
 <tr class="separator:ac8f8e69ae798a83bc63662c2688ac343"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84cc0bc5ed78c7d7066984ba1109ba53" id="r_a84cc0bc5ed78c7d7066984ba1109ba53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmt_1_1Directory.html#a84cc0bc5ed78c7d7066984ba1109ba53">remove_dir</a> (const char *path)</td></tr>
+<tr class="separator:a84cc0bc5ed78c7d7066984ba1109ba53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77b99b7a61cf349cf59720a42a0f425e" id="r_a77b99b7a61cf349cf59720a42a0f425e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmt_1_1Directory.html">Directory</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmt_1_1Directory.html#a77b99b7a61cf349cf59720a42a0f425e">operator+=</a> (std::shared_ptr&lt; <a class="el" href="classmt_1_1File.html">File</a> &gt; entry)</td></tr>
 <tr class="memdesc:a77b99b7a61cf349cf59720a42a0f425e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a shared pointer of a <a class="el" href="classmt_1_1File.html" title="Encapsulates a POSIX file descriptor and its associated metadata.">File</a> or <a class="el" href="classmt_1_1Directory.html" title="A specialized File that acts as a container for other File objects.">Directory</a> to this container.  <br /></td></tr>
 <tr class="separator:a77b99b7a61cf349cf59720a42a0f425e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a174cfb536193c92bd8f27a173e548ce7" id="r_a174cfb536193c92bd8f27a173e548ce7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmt_1_1Directory.html">Directory</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmt_1_1Directory.html#a174cfb536193c92bd8f27a173e548ce7">operator-=</a> (std::shared_ptr&lt; <a class="el" href="classmt_1_1File.html">File</a> &gt; entry)</td></tr>
+<tr class="memdesc:a174cfb536193c92bd8f27a173e548ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes an entry from the directory and deletes it from the filesystem.  <br /></td></tr>
+<tr class="separator:a174cfb536193c92bd8f27a173e548ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac10fadea74761dea744ccda7126c7b1e" id="r_ac10fadea74761dea744ccda7126c7b1e"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmt_1_1File.html">File</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmt_1_1Directory.html#ac10fadea74761dea744ccda7126c7b1e">operator[]</a> (const char *name) const</td></tr>
 <tr class="memdesc:ac10fadea74761dea744ccda7126c7b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for an entry by its filename.  <br /></td></tr>
 <tr class="separator:ac10fadea74761dea744ccda7126c7b1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -268,6 +273,46 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a174cfb536193c92bd8f27a173e548ce7" name="a174cfb536193c92bd8f27a173e548ce7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a174cfb536193c92bd8f27a173e548ce7">&#9670;&#160;</a></span>operator-=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmt_1_1Directory.html">Directory</a> &amp; mt::Directory::operator-= </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classmt_1_1File.html">File</a> &gt;&#160;</td>
+          <td class="paramname"><em>entry</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes an entry from the directory and deletes it from the filesystem. </p>
+<ul>
+<li>This operator performs two actions:</li>
+</ul>
+<ol type="1">
+<li>Physical: Calls <code>unlink()</code> on the file's path to remove it from the disk.</li>
+<li>Logical: Erases the shared pointer from the internal <code>m_entries</code> vector.</li>
+</ol>
+<ul>
+<li><dl class="section note"><dt>Note</dt><dd>If the entry is a directory, unlink may fail (POSIX requires rmdir). </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>This is a destructive operation and cannot be undone.</dd></dl>
+</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entry</td><td>The shared pointer to the <a class="el" href="classmt_1_1File.html" title="Encapsulates a POSIX file descriptor and its associated metadata.">File</a> or <a class="el" href="classmt_1_1Directory.html" title="A specialized File that acts as a container for other File objects.">Directory</a> to be removed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classmt_1_1Directory.html" title="A specialized File that acts as a container for other File objects.">Directory</a>&amp; Reference to this directory for method chaining. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
 <a id="ac10fadea74761dea744ccda7126c7b1e" name="ac10fadea74761dea744ccda7126c7b1e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac10fadea74761dea744ccda7126c7b1e">&#9670;&#160;</a></span>operator[]()</h2>
 
@@ -292,6 +337,24 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::shared_ptr&lt;File&gt; The found <a class="el" href="classmt_1_1File.html" title="Encapsulates a POSIX file descriptor and its associated metadata.">File</a> object, or nullptr if not found. </dd></dl>
+
+</div>
+</div>
+<a id="a84cc0bc5ed78c7d7066984ba1109ba53" name="a84cc0bc5ed78c7d7066984ba1109ba53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84cc0bc5ed78c7d7066984ba1109ba53">&#9670;&#160;</a></span>remove_dir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void mt::Directory::remove_dir </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
